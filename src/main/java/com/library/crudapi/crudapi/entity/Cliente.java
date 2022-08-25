@@ -1,46 +1,47 @@
 package com.library.crudapi.crudapi.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Objects;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "autor")
-public class Autor {
+@Table(name = "cliente")
+public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
-    @NotEmpty(message = "Campo nome não pode estar vazio.")
+    @NotEmpty(message = "Campo nome não pode estar vazio")
     private String nome;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "autor")
-    private Set<Livro> livro;
+    @NotEmpty(message = "Campo ativo não pode estar vazio")
+    private boolean ativo;
+
 
     @Embedded
-    private Autorinfo autorinfo;
+    private Clienteinfo clienteinfo;
 
-    public Autor(Long codigo, String nome) {
+    @Embedded
+    private Endereco endereco;
+
+    public Cliente(Long codigo, String name) {
         this.codigo = codigo;
+        this.nome = name;
+    }
+
+    public Cliente(String nome) {
         this.nome = nome;
     }
 
-    public Autor(String nome) {
-        this.nome = nome;
-    }
-
-    public Autor(Long codigo) {
+    public Cliente(Long codigo) {
         this.codigo = codigo;
     }
 

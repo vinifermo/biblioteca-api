@@ -15,11 +15,16 @@ import java.util.Set;
 @Entity
 @Table(name = "editora")
 public class Editora {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
+
     @NotEmpty(message = "Campo nome não pode estar vazio.")
     private String nome;
+
+    @Embedded
+    private Endereco endereco;
 
 
 

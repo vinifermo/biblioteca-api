@@ -21,6 +21,12 @@ public class Livro {
     @NotEmpty(message = "Campo nome não pode estar vazio.")
     private String nome;
 
+
+    @NotEmpty(message = "Campo genero não pode estar vazio.")
+    private String genero;
+
+    private String paginas;
+
     @ManyToOne
     @JoinColumn(name = "codigo_autor")
     private Autor autor;
@@ -28,6 +34,20 @@ public class Livro {
     @ManyToOne
     @JoinColumn(name = "codigo_editora")
     private Editora editora;
+
+    public Livro(String nome, String genero, String paginas) {
+        this.nome = nome;
+        this.genero = genero;
+        this.paginas = paginas;
+    }
+    public Livro(Autor autor, Editora editora, String name, String genero, String paginas) {
+        this.autor = autor;
+        this.editora = editora;
+        this.nome = name;
+        this.genero = genero;
+        this.paginas = paginas;
+    }
+
 }
 
 
