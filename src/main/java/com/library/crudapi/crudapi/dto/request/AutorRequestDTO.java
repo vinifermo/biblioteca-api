@@ -1,7 +1,5 @@
-package com.library.crudapi.crudapi.dto;
+package com.library.crudapi.crudapi.dto.request;
 
-import com.library.crudapi.crudapi.entity.Autor;
-import com.library.crudapi.crudapi.entity.Cliente;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,12 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClienteDTO {
-
+public class AutorDTO {
     @NotBlank(message = "Campo nome não pode estar vazio.")
     private String nome;
-
-    public ClienteDTO(Cliente cliente) {
-        this.nome = cliente.getNome();
-    }
 }
