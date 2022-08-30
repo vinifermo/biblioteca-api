@@ -1,16 +1,12 @@
 package com.library.crudapi.crudapi.entity;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
+import com.library.crudapi.crudapi.dto.request.AutorRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Objects;
 import java.util.Set;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,6 +27,7 @@ public class Autor {
     @Embedded
     private Autorinfo autorinfo;
 
+
     public Autor(Long codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
@@ -44,5 +41,8 @@ public class Autor {
         this.codigo = codigo;
     }
 
-
+    public Autor(AutorRequestDTO autorRequestDTO) {
+        this.nome = autorRequestDTO.getNome();
+        this.autorinfo = autorRequestDTO.getAutorinfo();
+    }
 }

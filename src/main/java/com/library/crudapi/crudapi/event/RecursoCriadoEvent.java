@@ -1,7 +1,5 @@
 package com.library.crudapi.crudapi.event;
-
 import org.springframework.context.ApplicationEvent;
-
 import javax.servlet.http.HttpServletResponse;
 
 public class RecursoCriadoEvent extends ApplicationEvent {

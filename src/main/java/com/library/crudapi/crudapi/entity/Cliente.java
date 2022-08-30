@@ -1,11 +1,8 @@
 package com.library.crudapi.crudapi.entity;
-
-import com.sun.istack.NotNull;
+import com.library.crudapi.crudapi.dto.request.ClienteRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
@@ -18,13 +15,11 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
-
     @NotEmpty(message = "Campo nome não pode estar vazio")
     private String nome;
 
     @NotEmpty(message = "Campo ativo não pode estar vazio")
     private boolean ativo;
-
 
     @Embedded
     private Clienteinfo clienteinfo;
@@ -45,5 +40,8 @@ public class Cliente {
         this.codigo = codigo;
     }
 
+    public Cliente(ClienteRequestDTO clienteRequestDTO) {
+        this.nome = clienteRequestDTO.getNome();
 
+    }
 }
