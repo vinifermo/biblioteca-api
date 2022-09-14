@@ -3,15 +3,17 @@ import com.library.crudapi.crudapi.dto.request.ClienteRequestDTO;
 import com.library.crudapi.crudapi.entity.Cliente;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 public interface ClienteService {
 
-    Cliente atualizar(Long codigo, ClienteRequestDTO clienteRequestDTO);
+    Cliente atualizar(UUID id, ClienteRequestDTO clienteRequestDTO);
 
     List<Cliente> listar();
 
-    Cliente remover(Long codigo);
+    Cliente remover(UUID id);
 
-    Optional<Cliente> buscarPeloCodigo(Long codigo);
+    Optional<Cliente> buscarPeloId(UUID id);
 
     Cliente criar(ClienteRequestDTO clienteRequestDTO);
 }

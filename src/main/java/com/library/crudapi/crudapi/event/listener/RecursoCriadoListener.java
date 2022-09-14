@@ -5,19 +5,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.util.UUID;
+
 @Component
 public class RecursoCriadoListener implements ApplicationListener<RecursoCriadoEvent> {
     @Override
     public void onApplicationEvent(RecursoCriadoEvent recursoCriadoEvent){
         HttpServletResponse response = recursoCriadoEvent.getResponse();
-        Long codigo =recursoCriadoEvent.getCodigo();
+        UUID id =recursoCriadoEvent.getId();
 
-        adicionarHeaderLocation(response,codigo);
+        adicionarHeaderLocation(response,id);
     }
 
-    private void adicionarHeaderLocation(HttpServletResponse response, Long codigo) {
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}")
-                .buildAndExpand(codigo).toUri();
+    private void adicionarHeaderLocation(HttpServletResponse response, UUID id) {
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+                .buildAndExpand(id).toUri();
         response.setHeader("Location", uri.toASCIIString());
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -21,9 +22,9 @@ public class AutorServiceImpl implements AutorService {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    public Autor atualizar(Long codigo, AutorRequestDTO autorRequestDTO) {
-        Autor autorSalvo = buscarAutorPeloCodigo(codigo);
-        BeanUtils.copyProperties(autorRequestDTO, autorSalvo, "codigo");
+    public Autor atualizar(UUID id, AutorRequestDTO autorRequestDTO) {
+        Autor autorSalvo = buscarAutorPeloId(id);
+        BeanUtils.copyProperties(autorRequestDTO, autorSalvo, "id");
         Autor save = autorRepository.save(autorSalvo);
         return save;
 
@@ -32,16 +33,16 @@ public class AutorServiceImpl implements AutorService {
         return autorRepository.findAll();
     }
 
-    public Autor buscarAutorPeloCodigo(Long codigo) {
-        Autor autorSalvo = autorRepository.findById(codigo).orElse(null);
+    public Autor buscarAutorPeloId(UUID id) {
+        Autor autorSalvo = autorRepository.findById(id).orElse(null);
         if (autorSalvo == null) {
             throw new EmptyResultDataAccessException(1);
 
         }
         return autorSalvo;
     }
-    public Optional<Autor> buscarPeloCodigo(@PathVariable Long codigo) {
-        Optional<Autor> autor = autorRepository.findById(codigo);
+    public Optional<Autor> buscarPeloId(@PathVariable UUID id) {
+        Optional<Autor> autor = autorRepository.findById(id);
         return autor;
 
     }
@@ -52,8 +53,8 @@ public class AutorServiceImpl implements AutorService {
         return autorSalvo;
     }
 
-    public Autor remover(@PathVariable Long codigo) {
-        autorRepository.deleteById(codigo);
+    public Autor remover(@PathVariable UUID id) {
+        autorRepository.deleteById(id);
         return null;
     }
 }

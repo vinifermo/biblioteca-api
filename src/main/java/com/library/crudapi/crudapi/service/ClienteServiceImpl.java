@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -24,14 +25,14 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Cliente atualizar(Long codigo, ClienteRequestDTO clienteDTO) {
-        Cliente clienteSalvo = buscarClientePeloCodigo(codigo);
-        BeanUtils.copyProperties(clienteDTO, clienteSalvo, "codigo");
+    public Cliente atualizar(UUID id, ClienteRequestDTO clienteDTO) {
+        Cliente clienteSalvo = buscarClientePeloId(id);
+        BeanUtils.copyProperties(clienteDTO, clienteSalvo, "id");
         Cliente save = clienteRepository.save(clienteSalvo);
         return save;
     }
-    private Cliente buscarClientePeloCodigo(Long codigo) {
-        Cliente clienteSalvo = clienteRepository.findById(codigo).orElse(null);
+    private Cliente buscarClientePeloId(UUID id) {
+        Cliente clienteSalvo = clienteRepository.findById(id).orElse(null);
         if (clienteSalvo == null) {
             throw new EmptyResultDataAccessException(1);
 
@@ -39,12 +40,12 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteSalvo;
     }
 
-    public Cliente remover(@PathVariable Long codigo) {
-        clienteRepository.deleteById(codigo);
+    public Cliente remover(@PathVariable UUID id) {
+        clienteRepository.deleteById(id);
         return null;
     }
-    public Optional<Cliente> buscarPeloCodigo(@PathVariable Long codigo) {
-        Optional<Cliente> cliente = clienteRepository.findById(codigo);
+    public Optional<Cliente> buscarPeloId(@PathVariable UUID id) {
+        Optional<Cliente> cliente = clienteRepository.findById(id);
         return cliente;
     }
     @Override

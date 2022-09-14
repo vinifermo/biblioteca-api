@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/livro")
@@ -26,30 +27,30 @@ public class LivroController {
         return livroService.listar();
     }
 
-    @GetMapping("/{codigo}")
-    public ResponseEntity<Livro> buscarPeloCodigo(@PathVariable Long codigo) {
-        Optional<Livro> livro = livroService.buscarPeloCodigo(codigo);
+    @GetMapping("/{id}")
+        public ResponseEntity<Livro> buscarPeloId(@PathVariable UUID id) {
+        Optional<Livro> livro = livroService.buscarPeloId(id);
         return livro.isPresent() ? ResponseEntity.ok(livro.get()) : ResponseEntity.notFound().build();
 
     }
     @PostMapping
     public ResponseEntity<Livro> criar(@Valid @RequestBody LivroRequestDTO livroRequestDTO, HttpServletResponse response) {
         Livro livroSalvo = livroService.criar(livroRequestDTO);
-        publisher.publishEvent(new RecursoCriadoEvent(this, response, livroSalvo.getCodigo()));
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, livroSalvo.getId()));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(livroSalvo);
 
     }
-    @PutMapping("/{codigo}")
-    public ResponseEntity<Livro> atualizar(@PathVariable Long codigo, @Valid @RequestBody LivroRequestDTO livroRequestDTO) {
-        Livro livroSalvo = livroService.atualizar(codigo, livroRequestDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<Livro> atualizar(@PathVariable UUID id, @Valid @RequestBody LivroRequestDTO livroRequestDTO) {
+        Livro livroSalvo = livroService.atualizar(id, livroRequestDTO);
         return ResponseEntity.ok(livroSalvo);
     }
 
-    @DeleteMapping("/{codigo}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long codigo) {
-        livroService.remover(codigo);
+    public void remover(@PathVariable UUID id) {
+        livroService.remover(id);
     }
 
 }

@@ -3,15 +3,17 @@ import com.library.crudapi.crudapi.dto.request.AutorRequestDTO;
 import com.library.crudapi.crudapi.entity.Autor;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 public interface AutorService {
 
-    Autor atualizar(Long codigo, AutorRequestDTO autorRequestDTO);
+    Autor atualizar(UUID id, AutorRequestDTO autorRequestDTO);
 
-    Autor remover(Long codigo);
+    Autor remover(UUID id);
 
     List<Autor> listar();
 
-    Optional<Autor> buscarPeloCodigo(Long codigo);
+    Optional<Autor> buscarPeloId(UUID id);
 
     Autor criar(AutorRequestDTO autorRequestDTO);
 }

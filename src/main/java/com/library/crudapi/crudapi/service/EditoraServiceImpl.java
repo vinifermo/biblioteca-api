@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -21,16 +22,16 @@ public class EditoraServiceImpl implements EditoraService {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    public Editora atualizar(Long codigo, EditoraRequestDTO editoraRequestDTO) {
-        Editora editoraSalva = buscarEditoraPeloCodigo(codigo);
-        BeanUtils.copyProperties(editoraRequestDTO, editoraSalva, "codigo");
+    public Editora atualizar(UUID id, EditoraRequestDTO editoraRequestDTO) {
+        Editora editoraSalva = buscarEditoraPeloId(id);
+        BeanUtils.copyProperties(editoraRequestDTO, editoraSalva, "id");
         Editora save = editoraRepository.save(editoraSalva);
         return save;
 
     }
 
-    private Editora buscarEditoraPeloCodigo(Long codigo) {
-        Editora editoraSalva = editoraRepository.findById(codigo).orElse(null);
+    private Editora buscarEditoraPeloId(UUID id) {
+        Editora editoraSalva = editoraRepository.findById(id).orElse(null);
         if (editoraSalva == null) {
             throw new EmptyResultDataAccessException(1);
 
@@ -38,8 +39,8 @@ public class EditoraServiceImpl implements EditoraService {
         return editoraSalva;
     }
 
-    public Optional<Editora> buscarPeloCodigo(@PathVariable Long codigo) {
-        Optional<Editora> editora = editoraRepository.findById(codigo);
+    public Optional<Editora> buscarPeloId(@PathVariable UUID id) {
+        Optional<Editora> editora = editoraRepository.findById(id);
         return editora;
 
     }
@@ -48,8 +49,8 @@ public class EditoraServiceImpl implements EditoraService {
         return editoraRepository.findAll();
     }
 
-    public Editora remover(@PathVariable Long codigo) {
-        editoraRepository.deleteById(codigo);
+    public Editora remover(@PathVariable UUID id) {
+        editoraRepository.deleteById(id);
         return null;
     }
 

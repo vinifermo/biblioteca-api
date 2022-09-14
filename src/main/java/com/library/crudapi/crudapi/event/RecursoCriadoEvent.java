@@ -1,22 +1,23 @@
 package com.library.crudapi.crudapi.event;
 import org.springframework.context.ApplicationEvent;
 import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 public class RecursoCriadoEvent extends ApplicationEvent {
     private HttpServletResponse response;
-    private Long codigo;
+    private UUID id;
 
-    public RecursoCriadoEvent(Object source, HttpServletResponse response, Long codigo) {
+    public RecursoCriadoEvent(Object source, HttpServletResponse response, UUID id) {
         super(source);
         this.response=response;
-        this.codigo=codigo;
+        this.id=id;
     }
     public HttpServletResponse getResponse() {
         return response;
     }
 
-    public Long getCodigo() {
-        return codigo;
+    public UUID getId() {
+        return id;
     }
 
 }

@@ -19,6 +19,4 @@ public class LivroRequestDTO {
     @NotNull(message = "Campo genero não pode estar vazio.")
     private String genero;
 
-    private String paginas;
-
 }

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/cliente")
 public class ClienteController {
@@ -26,27 +28,27 @@ public class ClienteController {
     public List<Cliente> listar() {
         return clienteService.listar();
     }
-    @GetMapping("/{codigo}")
-    public ResponseEntity<Cliente> buscarPeloCodigo(@PathVariable Long codigo) {
-        Optional<Cliente> cliente = clienteService.buscarPeloCodigo(codigo);
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> buscarPeloId(@PathVariable UUID id) {
+        Optional<Cliente> cliente = clienteService.buscarPeloId(id);
         return cliente.isPresent() ? ResponseEntity.ok(cliente.get()) : ResponseEntity.notFound().build();
     }
     @PostMapping
     public ResponseEntity<Cliente> criar(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO, HttpServletResponse response) {
         Cliente clienteSalvo = clienteService.criar(clienteRequestDTO);
-        publisher.publishEvent(new RecursoCriadoEvent(this, response, clienteSalvo.getCodigo()));
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, clienteSalvo.getId()));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
 
     }
-    @PutMapping("/{codigo}")
-    public ResponseEntity<Cliente> atualizar(@PathVariable Long codigo, @Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
-        Cliente clienteSalvo = clienteService.atualizar(codigo, clienteRequestDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<Cliente> atualizar(@PathVariable UUID id, @Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
+        Cliente clienteSalvo = clienteService.atualizar(id, clienteRequestDTO);
         return ResponseEntity.ok(clienteSalvo);
     }
-    @DeleteMapping("/{codigo}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long codigo) {
-        clienteService.remover(codigo);
+    public void remover(@PathVariable UUID id) {
+        clienteService.remover(id);
     }
 }

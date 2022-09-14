@@ -3,32 +3,32 @@ import com.library.crudapi.crudapi.dto.request.ClienteRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cliente")
+@Table(name = "tb_cliente", schema = "crud")
 public class Cliente {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+    @ColumnDefault("random_uuid()")
+    private UUID id;
     @NotEmpty(message = "Campo nome não pode estar vazio")
     private String nome;
-
-    @NotEmpty(message = "Campo ativo não pode estar vazio")
-    private boolean ativo;
 
     @Embedded
     private Clienteinfo clienteinfo;
 
-    @Embedded
+    @OneToOne(fetch = FetchType.LAZY)
     private Endereco endereco;
 
-    public Cliente(Long codigo, String name) {
-        this.codigo = codigo;
+    public Cliente(UUID id, String name) {
+        this.id = id;
         this.nome = name;
     }
 
@@ -36,8 +36,8 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public Cliente(Long codigo) {
-        this.codigo = codigo;
+    public Cliente(UUID id) {
+        this.id = id;
     }
 
     public Cliente(ClienteRequestDTO clienteRequestDTO) {

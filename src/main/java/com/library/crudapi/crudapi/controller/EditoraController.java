@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/editora")
 public class EditoraController {
@@ -26,28 +28,28 @@ public class EditoraController {
         return editoraService.listar();
     }
 
-    @GetMapping("/{codigo}")
-    public ResponseEntity<Editora> buscarPeloCodigo(@PathVariable Long codigo) {
-        Optional<Editora> editora = editoraService.buscarPeloCodigo(codigo);
+    @GetMapping("/{id}")
+    public ResponseEntity<Editora> buscarPeloId(@PathVariable UUID id) {
+        Optional<Editora> editora = editoraService.buscarPeloId(id);
         return editora.isPresent() ? ResponseEntity.ok(editora.get()) : ResponseEntity.notFound().build();
 
     }
     @PostMapping
     public ResponseEntity<Editora> criar(@Valid @RequestBody EditoraRequestDTO editoraRequestDTO, HttpServletResponse response) {
         Editora editoraSalva = editoraService.criar(editoraRequestDTO);
-        publisher.publishEvent(new RecursoCriadoEvent(this, response, editoraSalva.getCodigo()));
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, editoraSalva.getId()));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(editoraSalva);
 
     }
-    @PutMapping("/{codigo}")
-    public ResponseEntity<Editora> atualizar(@PathVariable Long codigo, @Valid @RequestBody EditoraRequestDTO editoraRequestDTO) {
-        Editora editoraSalva = editoraService.atualizar(codigo, editoraRequestDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<Editora> atualizar(@PathVariable UUID id, @Valid @RequestBody EditoraRequestDTO editoraRequestDTO) {
+        Editora editoraSalva = editoraService.atualizar(id, editoraRequestDTO);
         return ResponseEntity.ok(editoraSalva);
     }
-    @DeleteMapping("/{codigo}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long codigo) {
-        editoraService.remover(codigo);
+    public void remover(@PathVariable UUID id) {
+        editoraService.remover(id);
     }
 }

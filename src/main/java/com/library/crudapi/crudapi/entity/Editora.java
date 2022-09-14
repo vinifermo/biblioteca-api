@@ -5,22 +5,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "editora")
+@Table(name = "tb_editora", schema = "crud")
 public class Editora {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+    private UUID id;
 
     @NotEmpty(message = "Campo nome não pode estar vazio.")
     private String nome;
 
-    @Embedded
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Endereco endereco;
 
     public Editora(EditoraRequestDTO editoraRequestDTO) {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -21,16 +22,16 @@ public class LivroServiceImpl implements LivroService {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    public Livro atualizar(Long codigo, LivroRequestDTO livroRequestDTO) {
-        Livro livroSalvo = buscarlivroPeloCodigo(codigo);
-        BeanUtils.copyProperties(livroRequestDTO, livroSalvo, "codigo");
+    public Livro atualizar(UUID id, LivroRequestDTO livroRequestDTO) {
+        Livro livroSalvo = buscarlivroPeloId(id);
+        BeanUtils.copyProperties(livroRequestDTO, livroSalvo, "id");
         Livro save = livroRepository.save(livroSalvo);
         return save;
 
     }
 
-    private Livro buscarlivroPeloCodigo(Long codigo) {
-        Livro livroSalvo = livroRepository.findById(codigo).orElse(null);
+    private Livro buscarlivroPeloId(UUID id) {
+        Livro livroSalvo = livroRepository.findById(id).orElse(null);
         if (livroSalvo == null) {
             throw new EmptyResultDataAccessException(1);
 
@@ -42,18 +43,18 @@ public class LivroServiceImpl implements LivroService {
         return livroRepository.findAll();
     }
 
-    @Override
-    public Livro remover(Long codigo) {
-        livroRepository.deleteById(codigo);
+
+    public Livro remover(UUID id) {
+        livroRepository.deleteById(id);
         return null;
     }
 
-    public Optional<Livro> buscarPeloCodigo(@PathVariable Long codigo) {
-        Optional<Livro> livro = livroRepository.findById(codigo);
+    public Optional<Livro> buscarPeloId(@PathVariable UUID id) {
+        Optional<Livro> livro = livroRepository.findById(id);
         return livro;
 
     }
-
+    @Override
     public Livro criar(LivroRequestDTO livroRequestDTO) {
         Livro livro = new Livro(livroRequestDTO);
         Livro livroSalvo = livroRepository.save(livro);

@@ -3,16 +3,17 @@ import com.library.crudapi.crudapi.dto.request.EditoraRequestDTO;
 import com.library.crudapi.crudapi.entity.Editora;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface EditoraService {
 
-    Editora atualizar(Long codigo, EditoraRequestDTO editoraRequestDTO);
+    Editora atualizar(UUID id, EditoraRequestDTO editoraRequestDTO);
 
     List<Editora> listar();
 
-    Editora remover(Long codigo);
+    Editora remover(UUID id);
 
-    Optional<Editora> buscarPeloCodigo(Long codigo);
+    Optional<Editora> buscarPeloId(UUID id);
 
     Editora criar(EditoraRequestDTO editoraRequestDTO);
 }
