@@ -11,4 +11,8 @@ public class EditoraRequestDTO {
     @NotNull(message = "Campo nome não pode estar vazio.")
     private String nome;
 
+    @NotNull(message = "Campo autor não pode estar vazio.")
+    private EnderecoRequestDTO endereco;
+
+
 }

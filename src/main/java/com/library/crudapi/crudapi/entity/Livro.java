@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.UUID;
 
 @Data
@@ -13,16 +12,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_livro", schema = "crud")
 public class Livro {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
-
-    @NotEmpty(message = "Campo nome não pode estar vazio.")
     private String nome;
 
-
-    @NotEmpty(message = "Campo genero não pode estar vazio.")
     private String genero;
 
     @ManyToOne
@@ -33,11 +29,6 @@ public class Livro {
     @JoinColumn(name = "editora_id")
     private Editora editora;
 
-    public Livro(String nome, String genero) {
-        this.nome = nome;
-        this.genero = genero;
-
-    }
     public Livro(LivroRequestDTO livroRequestDTO) {
         this.autor = livroRequestDTO.getAutor();
         this.editora = livroRequestDTO.getEditora();

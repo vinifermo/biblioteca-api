@@ -2,7 +2,6 @@ package com.library.crudapi.crudapi.service;
 import com.library.crudapi.crudapi.dto.request.AutorRequestDTO;
 import com.library.crudapi.crudapi.entity.Autor;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface AutorService {
@@ -13,7 +12,7 @@ public interface AutorService {
 
     List<Autor> listar();
 
-    Optional<Autor> buscarPeloId(UUID id);
+    Autor buscarAutorPeloId(UUID id);
 
     Autor criar(AutorRequestDTO autorRequestDTO);
 }

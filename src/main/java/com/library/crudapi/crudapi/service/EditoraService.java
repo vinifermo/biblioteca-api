@@ -13,7 +13,7 @@ public interface EditoraService {
 
     Editora remover(UUID id);
 
-    Optional<Editora> buscarPeloId(UUID id);
+    Editora buscarEditoraPeloId(UUID id);
 
     Editora criar(EditoraRequestDTO editoraRequestDTO);
 }

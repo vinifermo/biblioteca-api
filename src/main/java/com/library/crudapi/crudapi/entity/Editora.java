@@ -26,5 +26,6 @@ public class Editora {
 
     public Editora(EditoraRequestDTO editoraRequestDTO) {
         this.nome = editoraRequestDTO.getNome();
+        this.endereco = new Endereco(editoraRequestDTO.getEndereco());
     }
 }

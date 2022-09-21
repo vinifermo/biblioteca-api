@@ -1,11 +1,9 @@
 package com.library.crudapi.crudapi.entity;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.library.crudapi.crudapi.dto.request.AutorRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
