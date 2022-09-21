@@ -17,11 +17,11 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_autor", schema = "crud")
 public class Autor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @NotEmpty(message = "Campo nome não pode estar vazio.")
     private String nome;
 
     @JsonIgnore
@@ -31,10 +31,8 @@ public class Autor {
     @Embedded
     private Autorinfo autorinfo;
 
-
     public Autor(AutorRequestDTO autorRequestDTO) {
         this.nome = autorRequestDTO.getNome();
         this.autorinfo = autorRequestDTO.getAutorinfo();
     }
-
 }

@@ -1,8 +1,10 @@
 package com.library.crudapi.crudapi.entity;
+
 import com.library.crudapi.crudapi.dto.request.EditoraRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.UUID;
@@ -18,7 +20,6 @@ public class Editora {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
-    @NotEmpty(message = "Campo nome não pode estar vazio.")
     private String nome;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -26,5 +27,6 @@ public class Editora {
 
     public Editora(EditoraRequestDTO editoraRequestDTO) {
         this.nome = editoraRequestDTO.getNome();
+        this.endereco = new Endereco(editoraRequestDTO.getEndereco());
     }
 }

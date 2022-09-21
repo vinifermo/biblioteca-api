@@ -1,26 +1,28 @@
 package com.library.crudapi.crudapi.controller;
+
 import com.library.crudapi.crudapi.dto.request.LivroRequestDTO;
+import com.library.crudapi.crudapi.dto.response.LivroResponseDTO;
 import com.library.crudapi.crudapi.entity.Livro;
-import com.library.crudapi.crudapi.event.RecursoCriadoEvent;
 import com.library.crudapi.crudapi.service.LivroService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/livro")
 public class LivroController {
-    @Autowired
-    ApplicationEventPublisher publisher;
-    @Autowired
-    private LivroService livroService;
+
+    private final LivroService livroService;
 
     @GetMapping
     public List<Livro> listar() {
@@ -28,23 +30,28 @@ public class LivroController {
     }
 
     @GetMapping("/{id}")
-        public ResponseEntity<Livro> buscarPeloId(@PathVariable UUID id) {
-        Optional<Livro> livro = livroService.buscarPeloId(id);
-        return livro.isPresent() ? ResponseEntity.ok(livro.get()) : ResponseEntity.notFound().build();
+    public LivroResponseDTO buscarlivroPeloId(@PathVariable UUID id) {
+        Livro livro = livroService.buscarlivroPeloId(id);
+        LivroResponseDTO livroResponseDTO = new LivroResponseDTO(livro);
 
+        return livroResponseDTO;
     }
+
     @PostMapping
-    public ResponseEntity<Livro> criar(@Valid @RequestBody LivroRequestDTO livroRequestDTO, HttpServletResponse response) {
+    public ResponseEntity<LivroResponseDTO> criar(@Valid @RequestBody LivroRequestDTO livroRequestDTO) {
         Livro livroSalvo = livroService.criar(livroRequestDTO);
-        publisher.publishEvent(new RecursoCriadoEvent(this, response, livroSalvo.getId()));
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(livroSalvo.getId())
+                .toUri();
+        log.info("Criado nova editora com id: {}", livroSalvo.getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(livroSalvo);
-
+        return ResponseEntity.created(location).build();
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Livro> atualizar(@PathVariable UUID id, @Valid @RequestBody LivroRequestDTO livroRequestDTO) {
-        Livro livroSalvo = livroService.atualizar(id, livroRequestDTO);
-        return ResponseEntity.ok(livroSalvo);
+    public void atualizar(@PathVariable UUID id, @Valid @RequestBody LivroRequestDTO livroRequestDTO) {
+        livroService.atualizar(id, livroRequestDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -52,5 +59,4 @@ public class LivroController {
     public void remover(@PathVariable UUID id) {
         livroService.remover(id);
     }
-
 }
