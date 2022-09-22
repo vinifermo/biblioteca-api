@@ -1,7 +1,7 @@
 package com.library.crudapi.crudapi.dto.response;
-
 import com.library.crudapi.crudapi.entity.Autor;
 import com.library.crudapi.crudapi.entity.Autorinfo;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +19,6 @@ public class AutorResponseDTO {
 
     public AutorResponseDTO(Autor autor) {
         this.nome = autor.getNome();
-        this.autorinfo = autor.getAutorinfo();
+        this.autorinfo=autor.getAutorinfo();
     }
 }

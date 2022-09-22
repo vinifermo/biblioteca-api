@@ -5,7 +5,6 @@ import com.library.crudapi.crudapi.entity.Editora;
 import com.library.crudapi.crudapi.repository.EditoraRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +18,10 @@ public class EditoraServiceImpl implements EditoraService {
 
     private final EditoraRepository editoraRepository;
 
-    public Editora atualizar(UUID id, EditoraRequestDTO editoraRequestDTO) {
+    public void atualizar(UUID id, EditoraRequestDTO editoraRequestDTO) {
         Editora editoraSalva = buscarEditoraPeloId(id);
         BeanUtils.copyProperties(editoraRequestDTO, editoraSalva, "id");
-        Editora save = editoraRepository.save(editoraSalva);
-        return save;
+        editoraRepository.save(editoraSalva);
     }
 
     public Editora buscarEditoraPeloId(UUID id) {

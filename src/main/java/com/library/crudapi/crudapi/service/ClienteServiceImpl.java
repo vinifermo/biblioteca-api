@@ -1,11 +1,11 @@
 package com.library.crudapi.crudapi.service;
 
+
 import com.library.crudapi.crudapi.dto.request.ClienteRequestDTO;
 import com.library.crudapi.crudapi.entity.Cliente;
 import com.library.crudapi.crudapi.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +23,10 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Cliente atualizar(UUID id, ClienteRequestDTO clienteRequestDTO) {
+    public void atualizar(UUID id, ClienteRequestDTO clienteRequestDTO) {
         Cliente clienteSalvo = buscarClientePeloId(id);
         BeanUtils.copyProperties(clienteRequestDTO, clienteSalvo, "id");
-        Cliente save = clienteRepository.save(clienteSalvo);
-        return save;
+        clienteRepository.save(clienteSalvo);
     }
 
     public Cliente buscarClientePeloId(UUID id) {

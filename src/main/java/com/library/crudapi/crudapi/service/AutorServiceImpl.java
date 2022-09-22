@@ -1,7 +1,6 @@
 package com.library.crudapi.crudapi.service;
 
 import com.library.crudapi.crudapi.dto.request.AutorRequestDTO;
-import com.library.crudapi.crudapi.dto.response.AutorResponseDTO;
 import com.library.crudapi.crudapi.entity.Autor;
 import com.library.crudapi.crudapi.repository.AutorRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,19 +12,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.UUID;
 
-;
-
 @Service
 @RequiredArgsConstructor
 public class AutorServiceImpl implements AutorService {
 
     private final AutorRepository autorRepository;
 
-    public Autor atualizar(UUID id, AutorRequestDTO autorRequestDTO) {
+    public void atualizar(UUID id, AutorRequestDTO autorRequestDTO) {
         Autor autorSalvo = buscarAutorPeloId(id);
         BeanUtils.copyProperties(autorRequestDTO, autorSalvo, "id");
-        Autor save = autorRepository.save(autorSalvo);
-        return save;
+        autorRepository.save(autorSalvo);
     }
 
     public List<Autor> listar() {
