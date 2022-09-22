@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -39,7 +38,7 @@ public class AutorController {
     }
 
     @PostMapping
-    public ResponseEntity<Autor> criar(@Valid @RequestBody AutorRequestDTO autorRequestDTO, HttpServletResponse response) {
+    public ResponseEntity<AutorResponseDTO> criar(@Valid @RequestBody AutorRequestDTO autorRequestDTO) {
         Autor autorSalvo = autorService.criar(autorRequestDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
