@@ -13,7 +13,7 @@ public interface LivroService {
 
     void remover(UUID id);
 
-    Livro buscarlivroPeloId(UUID id);
+    Livro buscarLivroPeloId(UUID id);
 
     Livro criar(LivroRequestDTO livroRequestDTO);
 }

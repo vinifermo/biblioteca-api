@@ -30,7 +30,7 @@ public class EditoraController {
     }
 
     @GetMapping("/{id}")
-    public EditoraResponseDTO buscarlivroPeloId(@PathVariable UUID id) {
+    public EditoraResponseDTO buscarLivroPeloId(@PathVariable UUID id) {
         Editora editora = editoraService.buscarEditoraPeloId(id);
         EditoraResponseDTO editoraResponseDTO = new EditoraResponseDTO(editora);
 

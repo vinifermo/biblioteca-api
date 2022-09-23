@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -13,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditoraResponseDTO {
-    @NotEmpty(message = "Campo nome não pode estar vazio.")
+    @NotBlank(message = "Campo nome não pode estar vazio.")
     private String nome;
 
     @NotNull(message = "Campo autor não pode estar vazio.")

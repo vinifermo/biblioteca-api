@@ -30,7 +30,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ClienteResponseDTO buscarClientePeloCodigo(@PathVariable UUID id) {
+    public ClienteResponseDTO buscarClientePeloId(@PathVariable UUID id) {
         Cliente cliente = clienteService.buscarClientePeloId(id);
         ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
 

@@ -50,6 +50,7 @@ public class AutorController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void atualizar(@PathVariable UUID id, @Valid @RequestBody AutorRequestDTO autorRequestDTO) {
         autorService.atualizar(id, autorRequestDTO);
     }

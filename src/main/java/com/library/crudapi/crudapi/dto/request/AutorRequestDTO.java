@@ -5,13 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class AutorRequestDTO {
 
-    @NotNull(message = "Campo nome não pode estar vazio.")
+    @NotBlank(message = "Campo nome não pode estar vazio.")
     private String nome;
 
     @NotNull(message = "Campo autorinfo não pode estar vazio.")

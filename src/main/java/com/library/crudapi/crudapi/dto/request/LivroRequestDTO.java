@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -18,9 +19,9 @@ public class LivroRequestDTO {
     @NotNull(message = "Campo editora não pode estar vazio.")
     private Editora editora;
 
-    @NotNull(message = "Campo nome não pode estar vazio.")
+    @NotBlank(message = "Campo nome não pode estar vazio.")
     private String nome;
 
-    @NotNull(message = "Campo genero não pode estar vazio.")
+    @NotBlank(message = "Campo genero não pode estar vazio.")
     private String genero;
 }

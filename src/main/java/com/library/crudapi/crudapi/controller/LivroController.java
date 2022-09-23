@@ -26,12 +26,13 @@ public class LivroController {
 
     @GetMapping
     public List<Livro> listar() {
+
         return livroService.listar();
     }
 
     @GetMapping("/{id}")
     public LivroResponseDTO buscarlivroPeloId(@PathVariable UUID id) {
-        Livro livro = livroService.buscarlivroPeloId(id);
+        Livro livro = livroService.buscarLivroPeloId(id);
         LivroResponseDTO livroResponseDTO = new LivroResponseDTO(livro);
 
         return livroResponseDTO;
