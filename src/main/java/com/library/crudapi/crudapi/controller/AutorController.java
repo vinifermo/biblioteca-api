@@ -1,66 +1,63 @@
 package com.library.crudapi.crudapi.controller;
 
+import com.library.crudapi.crudapi.dto.request.AutorRequestDTO;
+import com.library.crudapi.crudapi.dto.response.AutorResponseDTO;
 import com.library.crudapi.crudapi.entity.Autor;
-import com.library.crudapi.crudapi.entity.Editora;
-import com.library.crudapi.crudapi.event.RecursoCriadoEvent;
-import com.library.crudapi.crudapi.repository.AutorRepository;
 import com.library.crudapi.crudapi.service.AutorService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.awt.*;
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/autor")
 public class AutorController {
 
-    @Autowired
-    private AutorRepository autorRepository;
-    @Autowired
-    private ApplicationEventPublisher publisher;
-    @Autowired
-    private AutorService autorService;
+    private final AutorService autorService;
 
     @GetMapping
     public List<Autor> listar() {
-        return autorRepository.findAll();
+        return autorService.listar();
     }
 
-    @GetMapping("/{codigo}")
-    public ResponseEntity<Autor> buscarPeloCodigo(@PathVariable Long codigo) {
-        Optional<Autor> autor = autorRepository.findById(codigo);
-        return autor.isPresent() ? ResponseEntity.ok(autor.get()) : ResponseEntity.notFound().build();
+    @GetMapping("/{id}")
+    public AutorResponseDTO buscarAutorPeloId(@PathVariable UUID id) {
+        Autor autor = autorService.buscarAutorPeloId(id);
+        AutorResponseDTO autorResponseDTO = new AutorResponseDTO(autor);
 
+        return autorResponseDTO;
     }
 
     @PostMapping
-    public ResponseEntity<Autor> criar(@Valid @RequestBody Autor autor, HttpServletResponse response) {
-        Autor autorSalvo = autorRepository.save(autor);
-        publisher.publishEvent(new RecursoCriadoEvent(this, response, autorSalvo.getCodigo()));
+    public ResponseEntity<AutorResponseDTO> criar(@Valid @RequestBody AutorRequestDTO autorRequestDTO) {
+        Autor autorSalvo = autorService.criar(autorRequestDTO);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(autorSalvo.getId())
+                .toUri();
+        log.info("Criado novo autor com id: {}", autorSalvo.getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(autorSalvo);
-
+        return ResponseEntity.created(location).build();
     }
 
-    @PutMapping("/{codigo}")
-    public ResponseEntity<Autor> atualizar(@PathVariable Long codigo, @Valid @RequestBody Autor autor) {
-        Autor autorSalvo = autorService.atualizar(codigo, autor);
-        return ResponseEntity.ok(autorSalvo);
-    }
-
-
-    @DeleteMapping("/{codigo}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long codigo) {
-        autorRepository.deleteById(codigo);
+    public void atualizar(@PathVariable UUID id, @Valid @RequestBody AutorRequestDTO autorRequestDTO) {
+        autorService.atualizar(id, autorRequestDTO);
+    }
 
-
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable UUID id) {
+        autorService.remover(id);
     }
 }

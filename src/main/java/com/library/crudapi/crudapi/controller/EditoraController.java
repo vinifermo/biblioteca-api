@@ -1,57 +1,63 @@
 package com.library.crudapi.crudapi.controller;
 
-import com.library.crudapi.crudapi.entity.Autor;
+import com.library.crudapi.crudapi.dto.request.EditoraRequestDTO;
+import com.library.crudapi.crudapi.dto.response.EditoraResponseDTO;
 import com.library.crudapi.crudapi.entity.Editora;
-import com.library.crudapi.crudapi.event.RecursoCriadoEvent;
-import com.library.crudapi.crudapi.repository.AutorRepository;
-import com.library.crudapi.crudapi.repository.EditoraRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
+import com.library.crudapi.crudapi.service.EditoraService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/editora")
 public class EditoraController {
-    @Autowired
-    private EditoraRepository editoraRepository;
-    @Autowired
-    private ApplicationEventPublisher publisher;
+
+    private final EditoraService editoraService;
 
     @GetMapping
     public List<Editora> listar() {
-        return editoraRepository.findAll();
+        return editoraService.listar();
     }
 
-    @GetMapping("/{codigo}")
-    public ResponseEntity<Editora> buscarPeloCodigo(@PathVariable Long codigo) {
-        Optional<Editora> editora = editoraRepository.findById(codigo);
+    @GetMapping("/{id}")
+    public EditoraResponseDTO buscarLivroPeloId(@PathVariable UUID id) {
+        Editora editora = editoraService.buscarEditoraPeloId(id);
+        EditoraResponseDTO editoraResponseDTO = new EditoraResponseDTO(editora);
 
-        return editora.isPresent() ? ResponseEntity.ok(editora.get()) : ResponseEntity.notFound().build();
-
-
+        return editoraResponseDTO;
     }
 
     @PostMapping
-    public ResponseEntity<Editora> criar(@Valid @RequestBody Editora editora, HttpServletResponse response) {
-        Editora editoraSalva = editoraRepository.save(editora);
-        publisher.publishEvent(new RecursoCriadoEvent(this, response, editoraSalva.getCodigo()));
+    public ResponseEntity<EditoraResponseDTO> criar(@Valid @RequestBody EditoraRequestDTO editoraRequestDTO) {
+        Editora editoraSalva = editoraService.criar(editoraRequestDTO);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(editoraSalva.getId())
+                .toUri();
+        log.info("Criado nova editora com id: {}", editoraSalva.getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(editoraSalva);
-
+        return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/{codigo}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long codigo) {
-        editoraRepository.findById(codigo);
+    public void atualizar(@PathVariable UUID id, @Valid @RequestBody EditoraRequestDTO editoraRequestDTO) {
+        editoraService.atualizar(id, editoraRequestDTO);
     }
 
-
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable UUID id) {
+        editoraService.remover(id);
+    }
 }
