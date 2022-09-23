@@ -50,6 +50,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizar(@PathVariable UUID id, @Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
         clienteService.atualizar(id, clienteRequestDTO);
     }

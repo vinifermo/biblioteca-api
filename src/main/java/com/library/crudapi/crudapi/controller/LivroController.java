@@ -51,6 +51,7 @@ public class LivroController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizar(@PathVariable UUID id, @Valid @RequestBody LivroRequestDTO livroRequestDTO) {
         livroService.atualizar(id, livroRequestDTO);
     }

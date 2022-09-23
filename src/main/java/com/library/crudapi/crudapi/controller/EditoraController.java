@@ -50,6 +50,7 @@ public class EditoraController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizar(@PathVariable UUID id, @Valid @RequestBody EditoraRequestDTO editoraRequestDTO) {
         editoraService.atualizar(id, editoraRequestDTO);
     }
