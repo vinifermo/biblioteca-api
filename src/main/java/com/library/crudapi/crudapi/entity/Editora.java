@@ -1,11 +1,14 @@
 package com.library.crudapi.crudapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.library.crudapi.crudapi.dto.request.EditoraRequestDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -20,6 +23,10 @@ public class Editora {
     private UUID id;
 
     private String nome;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "editora", fetch = FetchType.LAZY)
+    private Set<Livro> livro;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Endereco endereco;

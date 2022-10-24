@@ -11,6 +11,7 @@ public interface ClienteService {
     void atualizar(UUID id, ClienteRequestDTO clienteRequestDTO);
 
     List<Cliente> listar();
+    List<Cliente> findByClienteinfoCpfContaining(String cpf);
 
     void remover(UUID id);
 

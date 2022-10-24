@@ -11,6 +11,8 @@ public interface LivroService {
 
     List<Livro> listar();
 
+    List<Livro> findByEditoraId(UUID id);
+
     void remover(UUID id);
 
     Livro buscarLivroPeloId(UUID id);

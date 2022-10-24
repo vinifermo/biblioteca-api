@@ -2,8 +2,9 @@ package com.library.crudapi.crudapi.service;
 
 import com.library.crudapi.crudapi.dto.request.AutorRequestDTO;
 import com.library.crudapi.crudapi.entity.Autor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface AutorService {
@@ -12,7 +13,7 @@ public interface AutorService {
 
     void remover(UUID id);
 
-    List<Autor> listar();
+    Page<Autor> findByPage(String filter, Pageable pageable);
 
     Autor buscarAutorPeloId(UUID id);
 

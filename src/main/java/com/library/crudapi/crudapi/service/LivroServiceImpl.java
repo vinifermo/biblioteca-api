@@ -1,7 +1,6 @@
 package com.library.crudapi.crudapi.service;
 
 import com.library.crudapi.crudapi.dto.request.LivroRequestDTO;
-import com.library.crudapi.crudapi.entity.Autor;
 import com.library.crudapi.crudapi.entity.Livro;
 import com.library.crudapi.crudapi.repository.LivroRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +31,11 @@ public class LivroServiceImpl implements LivroService {
 
     public List<Livro> listar() {
         return livroRepository.findAll();
+    }
+
+    public List<Livro> findByEditoraId(UUID id) {
+        List<Livro> livroSalvo = livroRepository.findByEditoraId(id);
+        return livroSalvo;
     }
 
     public void remover(UUID id) {

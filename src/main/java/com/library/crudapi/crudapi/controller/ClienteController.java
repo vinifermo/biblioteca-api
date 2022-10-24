@@ -29,6 +29,12 @@ public class ClienteController {
         return clienteService.listar();
     }
 
+    @GetMapping("/cpf")
+    public List<Cliente> findByClienteinfoCpfContaining(@RequestParam(required = false) String cpf) {
+        List<Cliente> clienteSalvo = clienteService.findByClienteinfoCpfContaining(cpf);
+        return clienteSalvo;
+    }
+
     @GetMapping("/{id}")
     public ClienteResponseDTO buscarClientePeloId(@PathVariable UUID id) {
         Cliente cliente = clienteService.buscarClientePeloId(id);

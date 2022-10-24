@@ -4,8 +4,10 @@ import com.library.crudapi.crudapi.dto.request.AutorRequestDTO;
 import com.library.crudapi.crudapi.dto.response.AutorResponseDTO;
 import com.library.crudapi.crudapi.entity.Autor;
 import com.library.crudapi.crudapi.service.AutorService;
+import com.library.crudapi.crudapi.util.FilterPageable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -25,8 +26,8 @@ public class AutorController {
     private final AutorService autorService;
 
     @GetMapping
-    public List<Autor> listar() {
-        return autorService.listar();
+    public Page<Autor> findByPage(@RequestParam(value = "filter",defaultValue = "")String filter, FilterPageable filterPageable) {
+        return autorService.findByPage(filter.toUpperCase(), filterPageable.listByPage());
     }
 
     @GetMapping("/{id}")
@@ -36,7 +37,6 @@ public class AutorController {
 
         return autorResponseDTO;
     }
-
     @PostMapping
     public ResponseEntity<AutorResponseDTO> criar(@Valid @RequestBody AutorRequestDTO autorRequestDTO) {
         Autor autorSalvo = autorService.criar(autorRequestDTO);

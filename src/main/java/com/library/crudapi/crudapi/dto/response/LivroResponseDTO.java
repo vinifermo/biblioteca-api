@@ -1,7 +1,5 @@
 package com.library.crudapi.crudapi.dto.response;
 
-import com.library.crudapi.crudapi.entity.Autor;
-import com.library.crudapi.crudapi.entity.Editora;
 import com.library.crudapi.crudapi.entity.Livro;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,10 +13,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class LivroResponseDTO {
     @NotNull(message = "Campo autor não pode estar vazio.")
-    private Autor autor;
+    private String autorId;
 
     @NotNull(message = "Campo editora não pode estar vazio.")
-    private Editora editora;
+    private String editoraId;
 
     @NotBlank(message = "Campo nome não pode estar vazio.")
     private String nome;
@@ -27,8 +25,8 @@ public class LivroResponseDTO {
     private String genero;
 
     public LivroResponseDTO(Livro livro) {
-        this.autor = livro.getAutor();
-        this.editora = livro.getEditora();
+        this.autorId = livro.getAutor().getId().toString();
+        this.editoraId = livro.getEditora().getId().toString();
         this.nome = livro.getNome();
         this.genero = livro.getGenero();
     }

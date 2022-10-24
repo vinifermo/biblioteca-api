@@ -6,10 +6,11 @@ import com.library.crudapi.crudapi.repository.AutorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,9 +25,10 @@ public class AutorServiceImpl implements AutorService {
         autorRepository.save(autorSalvo);
     }
 
-    public List<Autor> listar() {
-        return autorRepository.findAll();
+    public Page<Autor> findByPage(String filter, Pageable pageable) {
+        return autorRepository.findByPage(filter, pageable);
     }
+
 
     public Autor buscarAutorPeloId(UUID id) {
         Autor autorSalvo = autorRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
@@ -39,6 +41,7 @@ public class AutorServiceImpl implements AutorService {
         Autor autorSalvo = autorRepository.save(autor);
         return autorSalvo;
     }
+
 
     public void remover(@PathVariable UUID id) {
         autorRepository.deleteById(id);

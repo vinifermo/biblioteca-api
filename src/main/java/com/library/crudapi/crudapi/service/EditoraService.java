@@ -12,7 +12,7 @@ public interface EditoraService {
 
     List<Editora> listar();
 
-     void remover(UUID id);
+    void remover(UUID id);
 
     Editora buscarEditoraPeloId(UUID id);
 

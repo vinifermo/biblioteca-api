@@ -26,7 +26,6 @@ public class LivroController {
 
     @GetMapping
     public List<Livro> listar() {
-
         return livroService.listar();
     }
 
@@ -38,13 +37,16 @@ public class LivroController {
         return livroResponseDTO;
     }
 
+    @GetMapping("/editora/{id}")
+    public List<Livro> findByEditoraId(@PathVariable UUID id) {
+        List<Livro> livroSalvo = livroService.findByEditoraId(id);
+        return livroSalvo;
+    }
+
     @PostMapping
     public ResponseEntity<LivroResponseDTO> criar(@Valid @RequestBody LivroRequestDTO livroRequestDTO) {
         Livro livroSalvo = livroService.criar(livroRequestDTO);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(livroSalvo.getId())
-                .toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(livroSalvo.getId()).toUri();
         log.info("Criado nova editora com id: {}", livroSalvo.getId());
 
         return ResponseEntity.created(location).build();

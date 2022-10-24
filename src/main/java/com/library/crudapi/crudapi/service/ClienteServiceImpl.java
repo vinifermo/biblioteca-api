@@ -29,6 +29,11 @@ public class ClienteServiceImpl implements ClienteService {
         clienteRepository.save(clienteSalvo);
     }
 
+    public List<Cliente> findByClienteinfoCpfContaining(String cpf) {
+        List<Cliente> clienteSalvo = clienteRepository.findByClienteinfoCpfContaining(cpf);
+        return clienteSalvo;
+    }
+
     public Cliente buscarClientePeloId(UUID id) {
         Cliente clienteSalvo = clienteRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
         return clienteSalvo;
