@@ -18,26 +18,26 @@ public class EditoraServiceImpl implements EditoraService {
 
     private final EditoraRepository editoraRepository;
 
-    public void atualizar(UUID id, EditoraRequestDTO editoraRequestDTO) {
-        Editora editoraSalva = buscarEditoraPeloId(id);
+    public void update(UUID id, EditoraRequestDTO editoraRequestDTO) {
+        Editora editoraSalva = findById(id);
         BeanUtils.copyProperties(editoraRequestDTO, editoraSalva, "id");
         editoraRepository.save(editoraSalva);
     }
 
-    public Editora buscarEditoraPeloId(UUID id) {
+    public Editora findById(UUID id) {
         Editora editoraSalva = editoraRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
         return editoraSalva;
     }
 
-    public List<Editora> listar() {
+    public List<Editora> findAll() {
         return editoraRepository.findAll();
     }
 
-    public void remover(@PathVariable UUID id) {
+    public void delete(@PathVariable UUID id) {
         editoraRepository.deleteById(id);
     }
 
-    public Editora criar(EditoraRequestDTO editoraRequestDTO) {
+    public Editora create(EditoraRequestDTO editoraRequestDTO) {
         Editora editora = new Editora(editoraRequestDTO);
         Editora editoraSalva = editoraRepository.save(editora);
         return editoraSalva;

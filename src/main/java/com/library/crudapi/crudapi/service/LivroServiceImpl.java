@@ -17,19 +17,18 @@ public class LivroServiceImpl implements LivroService {
 
     private final LivroRepository livroRepository;
 
-    public void atualizar(UUID id, LivroRequestDTO livroRequestDTO) {
-        Livro livroSalvo = buscarLivroPeloId(id);
+    public void update(UUID id, LivroRequestDTO livroRequestDTO) {
+        Livro livroSalvo = findById(id);
         BeanUtils.copyProperties(livroRequestDTO, livroSalvo, "id");
         livroRepository.save(livroSalvo);
-
     }
 
-    public Livro buscarLivroPeloId(UUID id) {
+    public Livro findById(UUID id) {
         Livro livroSalvo = livroRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
         return livroSalvo;
     }
 
-    public List<Livro> listar() {
+    public List<Livro> findAll() {
         return livroRepository.findAll();
     }
 
@@ -38,12 +37,12 @@ public class LivroServiceImpl implements LivroService {
         return livroSalvo;
     }
 
-    public void remover(UUID id) {
+    public void delete(UUID id) {
         livroRepository.deleteById(id);
     }
 
     @Override
-    public Livro criar(LivroRequestDTO livroRequestDTO) {
+    public Livro create(LivroRequestDTO livroRequestDTO) {
         Livro livro = new Livro(livroRequestDTO);
         Livro livroSalvo = livroRepository.save(livro);
         return livroSalvo;

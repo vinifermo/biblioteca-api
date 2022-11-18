@@ -25,21 +25,21 @@ public class EditoraController {
     private final EditoraService editoraService;
 
     @GetMapping
-    public List<Editora> listar() {
-        return editoraService.listar();
+    public List<Editora> findAll() {
+        return editoraService.findAll();
     }
 
     @GetMapping("/{id}")
-    public EditoraResponseDTO buscarLivroPeloId(@PathVariable UUID id) {
-        Editora editora = editoraService.buscarEditoraPeloId(id);
+    public EditoraResponseDTO findById(@PathVariable UUID id) {
+        Editora editora = editoraService.findById(id);
         EditoraResponseDTO editoraResponseDTO = new EditoraResponseDTO(editora);
 
         return editoraResponseDTO;
     }
 
     @PostMapping
-    public ResponseEntity<EditoraResponseDTO> criar(@Valid @RequestBody EditoraRequestDTO editoraRequestDTO) {
-        Editora editoraSalva = editoraService.criar(editoraRequestDTO);
+    public ResponseEntity<EditoraResponseDTO> create(@Valid @RequestBody EditoraRequestDTO editoraRequestDTO) {
+        Editora editoraSalva = editoraService.create(editoraRequestDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(editoraSalva.getId())
@@ -51,13 +51,13 @@ public class EditoraController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable UUID id, @Valid @RequestBody EditoraRequestDTO editoraRequestDTO) {
-        editoraService.atualizar(id, editoraRequestDTO);
+    public void update(@PathVariable UUID id, @Valid @RequestBody EditoraRequestDTO editoraRequestDTO) {
+        editoraService.update(id, editoraRequestDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable UUID id) {
-        editoraService.remover(id);
+    public void delete(@PathVariable UUID id) {
+        editoraService.delete(id);
     }
 }

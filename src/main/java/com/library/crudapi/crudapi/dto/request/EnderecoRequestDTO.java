@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EnderecoRequestDTO {
+
     @NotBlank(message = "Campo nome não pode estar vazio.")
     private String numero;
     @NotBlank(message = "Campo nome não pode estar vazio.")

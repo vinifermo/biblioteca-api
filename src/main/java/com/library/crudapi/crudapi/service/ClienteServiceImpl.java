@@ -19,12 +19,12 @@ public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
 
-    public List<Cliente> listar() {
+    public List<Cliente> findAll() {
         return clienteRepository.findAll();
     }
 
-    public void atualizar(UUID id, ClienteRequestDTO clienteRequestDTO) {
-        Cliente clienteSalvo = buscarClientePeloId(id);
+    public void update(UUID id, ClienteRequestDTO clienteRequestDTO) {
+        Cliente clienteSalvo = findById(id);
         BeanUtils.copyProperties(clienteRequestDTO, clienteSalvo, "id");
         clienteRepository.save(clienteSalvo);
     }
@@ -34,17 +34,17 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteSalvo;
     }
 
-    public Cliente buscarClientePeloId(UUID id) {
+    public Cliente findById(UUID id) {
         Cliente clienteSalvo = clienteRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
         return clienteSalvo;
     }
 
-    public void remover(@PathVariable UUID id) {
+    public void delete(@PathVariable UUID id) {
         clienteRepository.deleteById(id);
     }
 
     @Override
-    public Cliente criar(ClienteRequestDTO clienteRequestDTO) {
+    public Cliente create(ClienteRequestDTO clienteRequestDTO) {
         Cliente cliente = new Cliente(clienteRequestDTO);
         Cliente clienteSalvo = clienteRepository.save(cliente);
         return clienteSalvo;

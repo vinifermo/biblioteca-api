@@ -8,14 +8,14 @@ import java.util.UUID;
 
 public interface ClienteService {
 
-    void atualizar(UUID id, ClienteRequestDTO clienteRequestDTO);
+    void update(UUID id, ClienteRequestDTO clienteRequestDTO);
 
-    List<Cliente> listar();
+    List<Cliente> findAll();
     List<Cliente> findByClienteinfoCpfContaining(String cpf);
 
-    void remover(UUID id);
+    void delete(UUID id);
 
-    Cliente buscarClientePeloId(UUID id);
+    Cliente findById(UUID id);
 
-    Cliente criar(ClienteRequestDTO clienteRequestDTO);
+    Cliente create(ClienteRequestDTO clienteRequestDTO);
 }

@@ -25,13 +25,13 @@ public class LivroController {
     private final LivroService livroService;
 
     @GetMapping
-    public List<Livro> listar() {
-        return livroService.listar();
+    public List<Livro> findAll() {
+        return livroService.findAll();
     }
 
     @GetMapping("/{id}")
-    public LivroResponseDTO buscarlivroPeloId(@PathVariable UUID id) {
-        Livro livro = livroService.buscarLivroPeloId(id);
+    public LivroResponseDTO findById(@PathVariable UUID id) {
+        Livro livro = livroService.findById(id);
         LivroResponseDTO livroResponseDTO = new LivroResponseDTO(livro);
 
         return livroResponseDTO;
@@ -44,8 +44,8 @@ public class LivroController {
     }
 
     @PostMapping
-    public ResponseEntity<LivroResponseDTO> criar(@Valid @RequestBody LivroRequestDTO livroRequestDTO) {
-        Livro livroSalvo = livroService.criar(livroRequestDTO);
+    public ResponseEntity<LivroResponseDTO> create(@Valid @RequestBody LivroRequestDTO livroRequestDTO) {
+        Livro livroSalvo = livroService.create(livroRequestDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(livroSalvo.getId()).toUri();
         log.info("Criado nova editora com id: {}", livroSalvo.getId());
 
@@ -54,13 +54,13 @@ public class LivroController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable UUID id, @Valid @RequestBody LivroRequestDTO livroRequestDTO) {
-        livroService.atualizar(id, livroRequestDTO);
+    public void update(@PathVariable UUID id, @Valid @RequestBody LivroRequestDTO livroRequestDTO) {
+        livroService.update(id, livroRequestDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable UUID id) {
-        livroService.remover(id);
+    public void delete(@PathVariable UUID id) {
+        livroService.delete(id);
     }
 }

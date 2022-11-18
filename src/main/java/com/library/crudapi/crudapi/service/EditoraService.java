@@ -8,13 +8,13 @@ import java.util.UUID;
 
 public interface EditoraService {
 
-    void atualizar(UUID id, EditoraRequestDTO editoraRequestDTO);
+    void update(UUID id, EditoraRequestDTO editoraRequestDTO);
 
-    List<Editora> listar();
+    List<Editora> findAll();
 
-    void remover(UUID id);
+    void delete(UUID id);
 
-    Editora buscarEditoraPeloId(UUID id);
+    Editora findById(UUID id);
 
-    Editora criar(EditoraRequestDTO editoraRequestDTO);
+    Editora create(EditoraRequestDTO editoraRequestDTO);
 }

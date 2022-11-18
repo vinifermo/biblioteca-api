@@ -9,7 +9,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
@@ -19,8 +18,8 @@ public class AutorServiceImpl implements AutorService {
 
     private final AutorRepository autorRepository;
 
-    public void atualizar(UUID id, AutorRequestDTO autorRequestDTO) {
-        Autor autorSalvo = buscarAutorPeloId(id);
+    public void update(UUID id, AutorRequestDTO autorRequestDTO) {
+        Autor autorSalvo = findById(id);
         BeanUtils.copyProperties(autorRequestDTO, autorSalvo, "id");
         autorRepository.save(autorSalvo);
     }
@@ -29,21 +28,20 @@ public class AutorServiceImpl implements AutorService {
         return autorRepository.findByPage(filter, pageable);
     }
 
-
-    public Autor buscarAutorPeloId(UUID id) {
+    public Autor findById(UUID id) {
         Autor autorSalvo = autorRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(1));
         return autorSalvo;
     }
 
     @Override
-    public Autor criar(AutorRequestDTO autorRequestDTO) {
+    public Autor create(AutorRequestDTO autorRequestDTO) {
         Autor autor = new Autor(autorRequestDTO);
         Autor autorSalvo = autorRepository.save(autor);
         return autorSalvo;
     }
 
 
-    public void remover(@PathVariable UUID id) {
+    public void delete(UUID id) {
         autorRepository.deleteById(id);
     }
 }

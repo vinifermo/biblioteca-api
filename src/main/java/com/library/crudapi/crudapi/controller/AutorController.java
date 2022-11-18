@@ -26,38 +26,39 @@ public class AutorController {
     private final AutorService autorService;
 
     @GetMapping
-    public Page<Autor> findByPage(@RequestParam(value = "filter",defaultValue = "")String filter, FilterPageable filterPageable) {
+    public Page<Autor> findByPage(@RequestParam(value = "filter", defaultValue = "") String filter, FilterPageable filterPageable) {
         return autorService.findByPage(filter.toUpperCase(), filterPageable.listByPage());
     }
 
     @GetMapping("/{id}")
-    public AutorResponseDTO buscarAutorPeloId(@PathVariable UUID id) {
-        Autor autor = autorService.buscarAutorPeloId(id);
+    public AutorResponseDTO findById(@PathVariable UUID id) {
+        Autor autor = autorService.findById(id);
         AutorResponseDTO autorResponseDTO = new AutorResponseDTO(autor);
 
         return autorResponseDTO;
     }
-    @PostMapping
-    public ResponseEntity<AutorResponseDTO> criar(@Valid @RequestBody AutorRequestDTO autorRequestDTO) {
-        Autor autorSalvo = autorService.criar(autorRequestDTO);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(autorSalvo.getId())
-                .toUri();
-        log.info("Criado novo autor com id: {}", autorSalvo.getId());
 
-        return ResponseEntity.created(location).build();
-    }
+        @PostMapping
+        public ResponseEntity<AutorResponseDTO> create(@Valid @RequestBody AutorRequestDTO autorRequestDTO) {
+            Autor autorSalvo = autorService.create(autorRequestDTO);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(autorSalvo.getId())
+                    .toUri();
+            log.info("Criado novo autor com id: {}", autorSalvo.getId());
+
+            return ResponseEntity.created(location).build();
+        }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable UUID id, @Valid @RequestBody AutorRequestDTO autorRequestDTO) {
-        autorService.atualizar(id, autorRequestDTO);
+    public void update(@PathVariable UUID id, @Valid @RequestBody AutorRequestDTO autorRequestDTO) {
+        autorService.update(id, autorRequestDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable UUID id) {
-        autorService.remover(id);
+    public void delete(@PathVariable UUID id) {
+        autorService.delete(id);
     }
 }

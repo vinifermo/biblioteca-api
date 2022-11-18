@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.UUID;
 
 public interface LivroService {
-    void atualizar(UUID id, LivroRequestDTO livroRequestDTO);
+    void update(UUID id, LivroRequestDTO livroRequestDTO);
 
-    List<Livro> listar();
+    List<Livro> findAll();
 
     List<Livro> findByEditoraId(UUID id);
 
-    void remover(UUID id);
+    void delete(UUID id);
 
-    Livro buscarLivroPeloId(UUID id);
+    Livro findById(UUID id);
 
-    Livro criar(LivroRequestDTO livroRequestDTO);
+    Livro create(LivroRequestDTO livroRequestDTO);
 }

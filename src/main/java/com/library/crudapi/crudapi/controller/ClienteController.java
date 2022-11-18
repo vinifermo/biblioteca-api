@@ -25,8 +25,8 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @GetMapping
-    public List<Cliente> listar() {
-        return clienteService.listar();
+    public List<Cliente> findAll() {
+        return clienteService.findAll();
     }
 
     @GetMapping("/cpf")
@@ -36,16 +36,16 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ClienteResponseDTO buscarClientePeloId(@PathVariable UUID id) {
-        Cliente cliente = clienteService.buscarClientePeloId(id);
+    public ClienteResponseDTO findById(@PathVariable UUID id) {
+        Cliente cliente = clienteService.findById(id);
         ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
 
         return clienteResponseDTO;
     }
 
     @PostMapping
-    public ResponseEntity<ClienteResponseDTO> criar(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
-        Cliente clienteSalvo = clienteService.criar(clienteRequestDTO);
+    public ResponseEntity<ClienteResponseDTO> create(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
+        Cliente clienteSalvo = clienteService.create(clienteRequestDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(clienteSalvo.getId())
@@ -57,13 +57,13 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable UUID id, @Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
-        clienteService.atualizar(id, clienteRequestDTO);
+    public void update(@PathVariable UUID id, @Valid @RequestBody ClienteRequestDTO clienteRequestDTO) {
+        clienteService.update(id, clienteRequestDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable UUID id) {
-        clienteService.remover(id);
+    public void delete(@PathVariable UUID id) {
+        clienteService.delete(id);
     }
 }

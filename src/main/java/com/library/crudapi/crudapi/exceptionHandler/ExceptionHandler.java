@@ -29,12 +29,14 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         String mensagemUsuario = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
         String mensagemDesenvolvedor = ex.getCause().toString();
         List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+
         return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<Erro> erros = criarListaDeErros(ex.getBindingResult());
+
         return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
     }
 
@@ -45,6 +47,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
             String mensagemDesenvolvedor = fieldError.toString();
             erros.add(new Erro(mensagemUsuario, mensagemDesenvolvedor));
         }
+
         return erros;
     }
 }

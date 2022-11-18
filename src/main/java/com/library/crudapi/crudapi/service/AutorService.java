@@ -9,13 +9,13 @@ import java.util.UUID;
 
 public interface AutorService {
 
-    void atualizar(UUID id, AutorRequestDTO autorRequestDTO);
+    void update(UUID id, AutorRequestDTO autorRequestDTO);
 
-    void remover(UUID id);
+    void delete(UUID id);
 
     Page<Autor> findByPage(String filter, Pageable pageable);
 
-    Autor buscarAutorPeloId(UUID id);
+    Autor findById(UUID id);
 
-    Autor criar(AutorRequestDTO autorRequestDTO);
+    Autor create(AutorRequestDTO autorRequestDTO);
 }
