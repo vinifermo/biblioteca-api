@@ -4,7 +4,7 @@ Rest API for managing a library.
 
 This project was done for studying purposes.
 
-The application's back-end was done with Java + Spring, I also used docker to provide a instance of mySQL.
+The application's back-end was done with Java + Spring, I also used docker to provide a instance of postgresSQL.
 
 
 What You Need
